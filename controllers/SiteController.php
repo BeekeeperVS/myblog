@@ -15,6 +15,8 @@ class SiteController extends Controller
     /**
      * {@inheritdoc}
      */
+    public $layout = 'markup';
+
     public function behaviors()
     {
         return [
@@ -61,7 +63,8 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $folderMarkup='../../web/public';
+        return $this->render('index',['folderMarkup'=>$folderMarkup]);
     }
 
     /**
@@ -124,5 +127,19 @@ class SiteController extends Controller
     public function actionAbout()
     {
         return $this->render('about');
+    }
+    public function actionErr()
+    {
+        return $this->render('err');
+    }
+    public function actionView()
+    {
+        $folderMarkup='../../web/public';
+        return $this->render('single', ['folderMarkup'=>$folderMarkup]);
+    }
+    public function actionCategory()
+    {
+        $folderMarkup='../../web/public';
+        return $this->render('category', ['folderMarkup'=>$folderMarkup]);
     }
 }
