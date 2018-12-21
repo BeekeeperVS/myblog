@@ -9,6 +9,8 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\Article;
+use yii\data\Pagination;
 
 class SiteController extends Controller
 {
@@ -63,8 +65,19 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+        $query = Article::find();
+//        var_dump($query); die;
+        $countQuery = $query->count();
+        $pagination = new Pagination(['totalCount' => $countQuery, 'defaultPageSize'=>1]);
+        $articles = $query->offset($pagination->offset)
+            ->limit($pagination->limit)
+            ->all();
         $folderMarkup='../../web/public';
-        return $this->render('index',['folderMarkup'=>$folderMarkup]);
+        return $this->render('index',[
+            'folderMarkup'=>$folderMarkup,
+            'articles' => $articles,
+            'pagination' =>$pagination,
+            ]);
     }
 
     /**

@@ -70,7 +70,7 @@ class Article extends \yii\db\ActiveRecord
         return $this->save(false); //false - отменяет валидацию
     }
     public function getImage(){
-        return ($this->image) ? ('uploads/'.$this->image) : '/no_image.jpg';
+        return ($this->image) ? ('/web/uploads/'.$this->image) : '/web/uploads/no_image.jpg';
     }
 
     public function beforeDelete()
