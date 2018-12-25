@@ -38,7 +38,7 @@ use app\assets\AppAsset;
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html"><img src="<?= $folderMarkup ?>/images/logo.jpg" alt=""></a>
+                <a class="navbar-brand" href="index.php"><img src="<?= $folderMarkup ?>/images/logo.jpg" alt=""></a>
             </div>
 
 

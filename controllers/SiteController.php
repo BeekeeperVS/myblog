@@ -64,51 +64,17 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $date=Article::getAll(1);
+        $data=Article::getAll(1);
         $popular = Article::getPopulation();
         $recent = Article::getResent();
         $categories = Category::getAll();
         return $this->render('index',[
-            'articles' => $date['articles'],
-            'pagination' =>$date['pagination'],
+            'articles' => $data['articles'],
+            'pagination' =>$data['pagination'],
             'popular'=>$popular,
             'recent'=>$recent,
             'categories'=>$categories,
             ]);
-    }
-
-    /**
-     * Login action.
-     *
-     * @return Response|string
-     */
-    public function actionLogin()
-    {
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
-
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
-        }
-
-        $model->password = '';
-        return $this->render('login', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Logout action.
-     *
-     * @return Response
-     */
-    public function actionLogout()
-    {
-        Yii::$app->user->logout();
-
-        return $this->goHome();
     }
 
     /**
@@ -142,14 +108,35 @@ class SiteController extends Controller
     {
         return $this->render('err');
     }
-    public function actionView()
+    public function actionView($id)
     {
-        $folderMarkup='../../web/public';
-        return $this->render('single', ['folderMarkup'=>$folderMarkup]);
+        $article = Article::findOne($id);
+        $popular = Article::getPopulation();
+        $recent = Article::getResent();
+        $categories = Category::getAll();
+        return $this->render('view', [
+            'folderMarkup'=>'../../web/public',
+            'article'=>$article,
+            'popular'=>$popular,
+            'recent'=>$recent,
+            'categories'=>$categories,
+            ]);
+
     }
-    public function actionCategory()
+    public function actionCategory($id)
     {
+        $data=Category::getArticlesByCategory($id,4);
+        $popular = Article::getPopulation();
+        $recent = Article::getResent();
+        $categories = Category::getAll();
         $folderMarkup='../../web/public';
-        return $this->render('category', ['folderMarkup'=>$folderMarkup]);
+        return $this->render('category', [
+            'articles' => $data['articles'],
+            'pagination' =>$data['pagination'],
+            'popular'=>$popular,
+            'recent'=>$recent,
+            'categories'=>$categories,
+            'folderMarkup'=>$folderMarkup,
+        ]);
     }
 }
