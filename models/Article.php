@@ -140,4 +140,13 @@ class Article extends \yii\db\ActiveRecord
     public static function getResent(){
         return Article::find()->orderBy(' date')->limit(3)->all();
     }
+    public function saveArticle(){
+        $this->user_id=Yii::$app->user->id;
+        return $this->save();
+    }
+    public function getComments()
+    {
+        return $this->hasMany(Comment::className(), ['article_id' => 'id']);
+    }
+
 }

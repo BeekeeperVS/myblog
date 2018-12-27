@@ -1,15 +1,21 @@
 <?php
 namespace app\controllers;
+use app\models\SignupForm;
+use app\models\User;
 use yii\web\Controller;
 use Yii;
+use app\models\LoginForm;
+
 class AuthController extends Controller
 {
+    public $layout = 'markup';
 
     /**
      * Login action.
      *
      * @return Response|string
      */
+
     public function actionLogin()
     {
         if (!Yii::$app->user->isGuest) {
@@ -38,8 +44,26 @@ class AuthController extends Controller
 
         return $this->goHome();
     }
-    public function actionTest(){
-        var_dump(Yii::$app->user);
+    public function actionSignup()
+    {
+//        Yii::$app->user->logout();
+        $model = new SignupForm();
+        if($model->load(Yii::$app->request->post()) && $model->validate()){
+            if($model->signup()){
+                return $this->redirect(['auth/login']);
+            }
+        }
+        return $this->render('signup',['model'=>$model]);
     }
+//    public function actionTest(){
+//        $user = User::findOne(1);
+//        Yii::$app->user->login($user);
+//        if (Yii::$app->user->isGuest){
+//            var_dump('Guest'); die;
+//        }
+//        else{
+//            var_dump('Login user'); die;
+//        }
+//    }
 
 }

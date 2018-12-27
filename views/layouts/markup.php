@@ -3,14 +3,13 @@
 /* @var $this \yii\web\View */
 /* @var $content string */
 
-use app\widgets\Alert;
-use yii\helpers\Html;
-use yii\bootstrap\Nav;
-use yii\bootstrap\NavBar;
-use yii\widgets\Breadcrumbs;
-use app\assets\AppAsset;
 
-\app\assets\PublicAsset::register($this);
+use app\assets\PublicAsset;
+use yii\helpers\Html;
+
+use yii\helpers\Url;
+
+PublicAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -51,8 +50,22 @@ use app\assets\AppAsset;
                 </ul>
                 <div class="i_con">
                     <ul class="nav navbar-nav text-uppercase">
-                        <li><a href="#">Login</a></li>
-                        <li><a href="#">Register</a></li>
+
+                        <?php if(Yii::$app->user->isGuest): ?>
+                            <li><a href="<?= Url::toRoute('auth/login')?>">Login</a></li>
+                            <li><a href="<?= Url::toRoute('auth/signup')?>">Register</a></li>
+                        <?php else: ?>
+                            <?=
+                                '<li>'
+                                . Html::beginForm(['/auth/logout'], 'post')
+                                . Html::submitButton(
+                                    'Logout (' . Yii::$app->user->identity->name . ')',
+                                    ['class' => 'btn btn-link logout']
+                                )
+                                . Html::endForm()
+                                . '</li>'
+                            ?>
+                        <?php endif; ?>
                     </ul>
                 </div>
 
