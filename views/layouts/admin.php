@@ -42,6 +42,7 @@ AppAsset::register($this);
             ['label' => 'Article', 'url' => ['/admin/article/index']],
             ['label' => 'Category', 'url' => ['/admin/category/index']],
             ['label' => 'Tag', 'url' => ['/admin/tag/index']],
+            ['label' => 'Comment', 'url' => ['/admin/comment/index']],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
             ) : (
@@ -77,6 +78,7 @@ AppAsset::register($this);
 </footer>
 
 <?php $this->endBody() ?>
+
 </body>
 </html>
 <?php $this->endPage() ?>

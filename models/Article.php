@@ -141,12 +141,24 @@ class Article extends \yii\db\ActiveRecord
         return Article::find()->orderBy(' date')->limit(3)->all();
     }
     public function saveArticle(){
-        $this->user_id=Yii::$app->user->id;
+
         return $this->save();
     }
     public function getComments()
     {
         return $this->hasMany(Comment::className(), ['article_id' => 'id']);
     }
+    public function getСonfirmComments()
+    {
+        return $this->getComments()->where(['status'=>1])->all();
+    }
+    public function getAuthor(){
+        return $this->hasOne(User::className(),['id'=>'user_id']);
+    }
+    public function viewedCounter(){
+        $this->viewed+=1;
+        $this->save();
+    }
+
 
 }
